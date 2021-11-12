@@ -157,3 +157,27 @@ body {
   color: black;
   font-weight: 500;
 }
+
+.advice {
+  display: none;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    background-color: black;
+    height: 100vh;
+  }
+
+  .container {
+    display: none;
+  }
+  .advice {
+    width: auto;
+    height: auto;
+    color: white;
+    display: flex;
+
+    justify-self: center;
+    align-self: center;
+  }
+}

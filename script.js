@@ -96,6 +96,7 @@ const eventListenerSubmitClear = (buttonInputSubmit, buttonClearList) => {
 
   buttonClearList.addEventListener("click", () => {
     orderList.innerHTML = "";
+    id = 0;
     document.getElementById("buttonClear").disabled = true;
   });
 };
@@ -122,6 +123,7 @@ const createLi = (id, input) => {
 const createButtonDelete = (id) => {
   let deleteItem = document.createElement("button");
   deleteItem.setAttribute("id", `buttonDelete${id}`);
+  deleteItem.classList.add("button");
   deleteItem.classList.add("delete");
   deleteItem.innerHTML = "Delete!";
   return deleteItem;
@@ -130,6 +132,7 @@ const createButtonDelete = (id) => {
 const createButtonDone = (id) => {
   let doneItem = document.createElement("button");
   doneItem.setAttribute("id", `buttonDone${id}`);
+  doneItem.classList.add("button");
   doneItem.classList.add("done");
   doneItem.innerHTML = "It´s done!";
   return doneItem;
@@ -139,6 +142,7 @@ const createButtonRedo = (id) => {
   let redoItem = document.createElement("button");
   redoItem.setAttribute("id", `buttonRedo${id}`);
   redoItem.setAttribute("disabled", "true");
+  redoItem.classList.add("button");
   redoItem.classList.add("redo");
   redoItem.innerHTML = "Re do";
   return redoItem;
@@ -160,12 +164,16 @@ const setEventListenerList = (id, buttonDelete, buttonClear, buttonRedo) => {
 
   //event listener button clear to do
   buttonClear.addEventListener("click", () => {
+    document.getElementById(`li${id}`).classList.remove("taskRedo");
+
+    document.getElementById(`li${id}`).classList.add("taskDone");
     buttonClear.disabled = true;
     buttonRedo.disabled = false;
   });
 
   //event listener button re do to do
   buttonRedo.addEventListener("click", () => {
+    document.getElementById(`li${id}`).classList.add("taskRedo");
     buttonClear.disabled = false;
     buttonRedo.disabled = true;
   });

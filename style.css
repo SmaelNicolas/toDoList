@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;500;900&display=swap");
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -21,41 +24,136 @@ body {
 }
 
 .title {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  letter-spacing: 2px;
+  color: rgba(0, 0, 0, 0.815);
+
+  font-weight: 900;
   text-align: center;
 }
 
 .inputs {
+  width: 100%;
+  height: 100px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
 
-  width: 500px;
-  height: 300px;
-  border: 2px solid black;
+  align-items: center;
+  justify-content: center;
 }
 
 .button {
-  text-align: center;
-  font-weight: bold;
   width: 100px;
+
+  text-align: center;
+  border-radius: 20px;
+  border: 0px;
+
+  color: white;
+  margin-bottom: 10px;
+
+  cursor: pointer;
 }
 
 .submit {
-  background-color: lime;
+  background-color: rgb(19, 224, 19);
+  width: 150px;
+  height: 35px;
+}
+.submit:hover {
+  background-color: rgba(0, 128, 0, 0.815);
 }
 
 .clear {
-  background-color: grey;
+  background-color: rgba(14, 13, 13, 0.568);
+  width: 120px;
+  height: 35px;
+}
+.clear:hover {
+  background-color: rgba(14, 13, 13, 0.808);
+}
+
+.delete {
+  background-color: rgba(255, 0, 0, 0.664);
+}
+.delete:hover {
+  background-color: rgba(255, 0, 0, 0.822);
+}
+
+.done {
+  background-color: rgba(19, 224, 19, 0.753);
+}
+.done:hover {
+  background-color: rgba(0, 128, 0, 0.815);
+}
+
+.redo {
+  background-color: rgba(17, 0, 255, 0.514);
+}
+.redo:hover {
+  background-color: rgba(17, 0, 255, 0.705);
+}
+
+.taskDone {
+  background-color: rgba(0, 128, 0, 0.479);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.taskRedo {
+  background-color: rgba(17, 0, 255, 0.479);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.input {
+  width: 800px;
+  border-radius: 20px;
+  border: 0.5px solid rgba(0, 0, 0, 0.637);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .listContainer {
-  width: 80%;
-  height: 500px;
-  background-color: green;
+  width: 90%;
+  min-height: 700px;
+
+  margin-top: 30px;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  border: 1px solid rgba(0, 0, 0, 0.445);
+}
+
+.orderList {
+  width: 95%;
+  margin-top: 20px;
 }
 
 .listItem {
+  width: 100%;
+  margin-bottom: 10px;
+
   display: flex;
   flex-direction: row;
+
+  justify-content: space-between;
+  align-items: baseline;
+
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.226);
+}
+
+.textInput {
+  width: 70%;
+  padding-left: 5px;
+  color: black;
+  font-weight: 500;
 }

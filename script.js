@@ -34,6 +34,7 @@ const App = () => {
   input.setAttribute("type", "text");
   input.setAttribute("placeholder", "Write to do");
   input.setAttribute("id", "input");
+  input.setAttribute("maxlength", "100");
 
   let buttonInputSubmit = document.createElement("button");
   buttonInputSubmit.classList.add("button");

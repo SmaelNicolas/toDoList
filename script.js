@@ -20,6 +20,10 @@ orderList.classList.add("orderList");
 //list container
 let listContainer = document.getElementById("listContainer");
 
+//array strings in LocalStorage
+let arrLocalStorage = [];
+
+//create title , input container, buttons, list container
 const App = () => {
   let title = document.createElement("h1");
   title.classList.add("title");
@@ -61,47 +65,82 @@ const App = () => {
   container.appendChild(buttonClearList);
   container.appendChild(listContainer);
 
+  //check if there is any item on the Local Storage
+  createToDoFromLS();
+
+  //call to event listenes button submit and clear list
   eventListenerSubmitClear(buttonInputSubmit, buttonClearList);
 };
 
+//submit and clear
 const eventListenerSubmitClear = (buttonInputSubmit, buttonClearList) => {
+  //click on submit , add to list
   buttonInputSubmit.addEventListener("click", () => {
-    let input = document.getElementById("input");
-    if (input.value != "") {
-      //text of the item
-      let li = createLi(id, input);
-
-      //button to delete item
-      let deleteItem = createButtonDelete(id);
-
-      //button to check item
-      let doneItem = createButtonDone(id);
-
-      //button to reDo item
-      let redoItem = createButtonRedo(id);
-
-      //container of the element
-      let divItem = createDiv(id, li, deleteItem, doneItem, redoItem);
-
-      writeOnList(divItem);
-      setEventListenerList(id, deleteItem, doneItem, redoItem);
-
-      buttonClearList.disabled = false;
-
-      input.value = "";
-      id++;
-    } else {
-      alert("Insert something to do");
-    }
+    createToDo();
   });
 
   buttonClearList.addEventListener("click", () => {
     orderList.innerHTML = "";
     id = 0;
     document.getElementById("buttonClear").disabled = true;
+    arrLocalStorage = [];
+    localStorage.setItem("arrLocalStorage", JSON.stringify(arrLocalStorage));
   });
 };
 
+//check in LS if it has strings
+const createToDoFromLS = () => {
+  localStorage.getItem("arrLocalStorage") == undefined
+    ? localStorage.setItem("arrLocalStorage", JSON.stringify(arrLocalStorage))
+    : (arrLocalStorage = JSON.parse(localStorage.getItem("arrLocalStorage")));
+
+  arrLocalStorage.forEach((input) => {
+    createToDoComponents(input);
+  });
+};
+
+//if a valid submit, create the component
+const createToDo = () => {
+  let input = document.getElementById("input");
+  if (input.value != "") {
+    arrLocalStorage = JSON.parse(localStorage.getItem("arrLocalStorage"));
+    arrLocalStorage.push(input.value);
+    localStorage.setItem("arrLocalStorage", JSON.stringify(arrLocalStorage));
+
+    createToDoComponents(input.value);
+  } else {
+    alert("Insert something to do");
+  }
+};
+
+//organize the line and calls components
+const createToDoComponents = (value) => {
+  //text of the item
+  let li = createLi(id, value);
+
+  //button to delete item
+  let deleteItem = createButtonDelete(id);
+
+  //button to check item
+  let doneItem = createButtonDone(id);
+
+  //button to reDo item
+  let redoItem = createButtonRedo(id);
+
+  //container of the element
+  let divItem = createDiv(id, li, deleteItem, doneItem, redoItem);
+
+  writeOnList(divItem);
+  setEventListenerList(id, deleteItem, doneItem, redoItem);
+
+  document.getElementById("buttonClear").disabled = false;
+
+  document.getElementById("input").value = "";
+
+  id++;
+};
+
+//create line in list
 const createDiv = (id, li, deleteItem, doneItem, redoItem) => {
   let item = document.createElement("div");
   item.setAttribute("id", id);
@@ -113,14 +152,16 @@ const createDiv = (id, li, deleteItem, doneItem, redoItem) => {
   return item;
 };
 
-const createLi = (id, input) => {
+//create text in line
+const createLi = (id, value) => {
   let li = document.createElement("li");
   li.setAttribute("id", `li${id}`);
   li.classList.add("textInput");
-  li.innerHTML = input.value;
+  li.innerHTML = value;
   return li;
 };
 
+//create button delete in line
 const createButtonDelete = (id) => {
   let deleteItem = document.createElement("button");
   deleteItem.setAttribute("id", `buttonDelete${id}`);
@@ -130,6 +171,7 @@ const createButtonDelete = (id) => {
   return deleteItem;
 };
 
+//create buuton its done in line
 const createButtonDone = (id) => {
   let doneItem = document.createElement("button");
   doneItem.setAttribute("id", `buttonDone${id}`);
@@ -139,6 +181,7 @@ const createButtonDone = (id) => {
   return doneItem;
 };
 
+//create button redo in line
 const createButtonRedo = (id) => {
   let redoItem = document.createElement("button");
   redoItem.setAttribute("id", `buttonRedo${id}`);
@@ -149,21 +192,28 @@ const createButtonRedo = (id) => {
   return redoItem;
 };
 
+//insert the line on the list
 const writeOnList = (item) => {
   orderList.appendChild(item);
   document.getElementById("listContainer").appendChild(orderList);
 };
 
+//handle delete clear an reDo buttons
 const setEventListenerList = (id, buttonDelete, buttonClear, buttonRedo) => {
-  //event listener button delete to do
+  //remove from list and LS
   buttonDelete.addEventListener("click", () => {
+    arrLocalStorage = JSON.parse(localStorage.getItem("arrLocalStorage"));
+    arrLocalStorage = arrLocalStorage.filter(
+      (string) => string != document.getElementById(`li${id}`).innerHTML
+    );
+    localStorage.setItem("arrLocalStorage", JSON.stringify(arrLocalStorage));
     document.getElementById(`${id}`).remove();
     if (orderList.innerHTML === "") {
       document.getElementById("buttonClear").disabled = true;
     }
   });
 
-  //event listener button clear to do
+  //check the line with bg green , disale its done
   buttonClear.addEventListener("click", () => {
     document.getElementById(`li${id}`).classList.remove("taskRedo");
 
@@ -172,7 +222,7 @@ const setEventListenerList = (id, buttonDelete, buttonClear, buttonRedo) => {
     buttonRedo.disabled = false;
   });
 
-  //event listener button re do to do
+  //check the line with bg blue, disable redo
   buttonRedo.addEventListener("click", () => {
     document.getElementById(`li${id}`).classList.add("taskRedo");
     buttonClear.disabled = false;
